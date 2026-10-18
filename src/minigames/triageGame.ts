@@ -141,63 +141,63 @@ export class TriageMiniGame {
       ctx.strokeRect(x + 3, 3, tileSize - 6, 20);
     }
 
-    // 3. Wooden Apothecary Shelves in background (left)
+    // 3. Wooden Apothecary Shelves in background (left, compact to leave room for large nameplate)
     ctx.fillStyle = '#6E472B';
-    ctx.fillRect(24, 38, 210, 155);
+    ctx.fillRect(20, 32, 196, 114);
     ctx.fillStyle = '#52331D';
-    for (let row = 0; row < 3; row++) {
-      const sy = 46 + row * 48;
-      ctx.fillRect(32, sy, 194, 38);
+    for (let row = 0; row < 2; row++) {
+      const sy = 40 + row * 50;
+      ctx.fillRect(28, sy, 180, 40);
       for (let j = 0; j < 4; j++) {
-        const jx = 42 + j * 46;
+        const jx = 38 + j * 42;
         ctx.fillStyle = '#FAF5E8';
-        ctx.fillRect(jx, sy + 6, 24, 28);
+        ctx.fillRect(jx, sy + 6, 22, 28);
         ctx.fillStyle = '#165B38';
-        ctx.fillRect(jx + 3, sy + 14, 18, 9);
+        ctx.fillRect(jx + 3, sy + 14, 16, 9);
       }
       ctx.fillStyle = '#52331D';
     }
 
     // 4. Illuminated Green Maltese Cross (Cruz de Farmacia Gallego)
-    const crossCx = 702;
-    const crossCy = 88;
+    const crossCx = 682;
+    const crossCy = 84;
     const pulse = 0.85 + 0.15 * Math.sin(this.elapsedSec * 3.5);
     ctx.fillStyle = `rgba(0, 200, 83, ${0.22 * pulse})`;
     ctx.beginPath();
-    ctx.arc(crossCx, crossCy, 56, 0, Math.PI * 2);
+    ctx.arc(crossCx, crossCy, 60, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = '#0A2E1A';
     ctx.strokeStyle = '#00C853';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.roundRect(crossCx - 66, crossCy - 44, 132, 88, 12);
+    ctx.roundRect(crossCx - 96, crossCy - 48, 192, 96, 12);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#00E676';
-    ctx.fillRect(crossCx - 9, crossCy - 32, 18, 26);
-    ctx.fillRect(crossCx - 36, crossCy - 20, 72, 14);
-    ctx.font = 'bold 17px monospace';
+    ctx.fillRect(crossCx - 10, crossCy - 38, 20, 28);
+    ctx.fillRect(crossCx - 38, crossCy - 25, 76, 15);
+    ctx.font = 'bold 23px monospace';
     ctx.textAlign = 'center';
-    ctx.fillText(`${ambientTempC}°C GALLEGO`, crossCx, crossCy + 26);
+    ctx.fillText(`${ambientTempC}°C GALLEGO`, crossCx, crossCy + 30);
 
     // 5. Customer Avatar at the Counter
     const custX = 435;
-    const custY = 185;
+    const custY = 152;
     const bobOffset = Math.sin(this.elapsedSec * 2.4) * 3;
 
     // Shoulders / torso
     ctx.fillStyle = this.scenario.avatarColor;
     ctx.beginPath();
-    ctx.roundRect(custX - 66, custY - 6 + bobOffset, 132, 95, 30);
+    ctx.roundRect(custX - 64, custY - 6 + bobOffset, 128, 86, 28);
     ctx.fill();
 
     // Head
     const isSunburned = this.scenario.symptomVisual === 'sunburn';
     ctx.fillStyle = isSunburned ? '#F2796B' : '#F4C9A4';
     ctx.beginPath();
-    ctx.arc(custX, custY - 46 + bobOffset, 44, 0, Math.PI * 2);
+    ctx.arc(custX, custY - 44 + bobOffset, 42, 0, Math.PI * 2);
     ctx.fill();
     ctx.strokeStyle = '#4A3222';
     ctx.lineWidth = 2.5;
@@ -206,20 +206,20 @@ export class TriageMiniGame {
     // Eyes & Mouth
     ctx.fillStyle = '#2B1D14';
     ctx.beginPath();
-    ctx.arc(custX - 15, custY - 52 + bobOffset, 4.5, 0, Math.PI * 2);
-    ctx.arc(custX + 15, custY - 52 + bobOffset, 4.5, 0, Math.PI * 2);
+    ctx.arc(custX - 14, custY - 50 + bobOffset, 4.5, 0, Math.PI * 2);
+    ctx.arc(custX + 14, custY - 50 + bobOffset, 4.5, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.beginPath();
-    ctx.arc(custX, custY - 26 + bobOffset, 11, Math.PI * 1.15, Math.PI * 1.85);
+    ctx.arc(custX, custY - 25 + bobOffset, 11, Math.PI * 1.15, Math.PI * 1.85);
     ctx.stroke();
 
     if (this.scenario.symptomVisual === 'pollen_sneeze') {
       ctx.fillStyle = '#D4AF37';
       for (let i = 0; i < 7; i++) {
         const angle = this.elapsedSec * 1.8 + i * 0.9;
-        const px = custX + Math.cos(angle) * 56;
-        const py = custY - 44 + Math.sin(angle * 1.3) * 30;
+        const px = custX + Math.cos(angle) * 54;
+        const py = custY - 42 + Math.sin(angle * 1.3) * 28;
         ctx.beginPath();
         ctx.arc(px, py, 5, 0, Math.PI * 2);
         ctx.fill();
@@ -228,17 +228,17 @@ export class TriageMiniGame {
       ctx.strokeStyle = 'rgba(217, 48, 37, 0.85)';
       ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.arc(custX, custY - 6, 68 + Math.sin(this.elapsedSec * 6) * 6, 0, Math.PI * 2);
+      ctx.arc(custX, custY - 6, 64 + Math.sin(this.elapsedSec * 6) * 6, 0, Math.PI * 2);
       ctx.stroke();
     } else if (this.scenario.symptomVisual === 'fever_sweat') {
       ctx.fillStyle = '#3898EC';
       ctx.beginPath();
-      ctx.arc(custX + 28, custY - 64 + bobOffset, 6, 0, Math.PI * 2);
+      ctx.arc(custX + 26, custY - 60 + bobOffset, 6, 0, Math.PI * 2);
       ctx.fill();
     }
 
     // 6. Mahogany Pharmacy Counter Foreground (Mostrador Farmacia Gallego)
-    const counterY = 250;
+    const counterY = 228;
     const woodGrad = ctx.createLinearGradient(0, counterY, 0, H);
     woodGrad.addColorStop(0, '#784B25');
     woodGrad.addColorStop(0.15, '#5C3719');
@@ -249,79 +249,97 @@ export class TriageMiniGame {
     ctx.fillStyle = '#C7B641';
     ctx.fillRect(0, counterY, W, 6);
 
-    // 7. Large Mobile-Friendly Customer Name Banner & Patience Bar
+    // 7. Extra-Large Phone-Readable Customer Name Banner & Patience Bar
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.roundRect(20, 198, 325, 46, 10);
+    ctx.roundRect(16, 152, 412, 70, 12);
     ctx.fill();
     ctx.strokeStyle = '#165B38';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 3.5;
     ctx.stroke();
 
-    ctx.fillStyle = '#0D3B22';
-    ctx.font = 'bold 19px sans-serif';
+    ctx.fillStyle = '#09351C';
+    ctx.font = 'bold 27px sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText(this.scenario.customerName, 32, 221);
-    ctx.font = 'bold 14px sans-serif';
-    ctx.fillStyle = '#385A46';
-    ctx.fillText(t(this.scenario.customerRole, locale), 32, 238);
+    ctx.fillText(this.scenario.customerName, 30, 184);
+    ctx.font = 'bold 21px sans-serif';
+    ctx.fillStyle = '#2B543A';
+    ctx.fillText(t(this.scenario.customerRole, locale), 30, 211);
 
     // Patience pill on top right of counter
     ctx.fillStyle = '#092916';
     ctx.beginPath();
-    ctx.roundRect(535, 202, 245, 40, 10);
+    ctx.roundRect(458, 162, 326, 56, 12);
     ctx.fill();
+    ctx.strokeStyle = '#00C853';
+    ctx.lineWidth = 2;
+    ctx.stroke();
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 15px sans-serif';
+    ctx.font = 'bold 23px sans-serif';
     ctx.fillText(
       locale === 'es'
         ? `Paciencia: ${Math.round(this.patience)}%`
         : `Patience: ${Math.round(this.patience)}%`,
-      550,
-      227
+      474,
+      198
     );
+    ctx.fillStyle = '#1B432C';
+    ctx.fillRect(674, 178, 94, 24);
     ctx.fillStyle = this.patience > 45 ? '#00E676' : '#FF9800';
-    ctx.fillRect(685, 214, (80 * this.patience) / 100, 16);
+    ctx.fillRect(674, 178, (94 * this.patience) / 100, 24);
 
-    // 8. Large, High-Contrast Patient Speech Box on Counter (Readable on iPhone!)
+    // 8. Extra-Large High-Contrast Patient Speech Box on Counter (30px–34px for Phone Screens!)
     ctx.fillStyle = '#FFFDF9';
     ctx.beginPath();
-    ctx.roundRect(18, counterY + 14, W - 36, H - counterY - 26, 12);
+    ctx.roundRect(14, counterY + 10, W - 28, H - counterY - 20, 14);
     ctx.fill();
     ctx.strokeStyle = '#84B866';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 3.5;
     ctx.stroke();
 
-    ctx.fillStyle = '#14261C';
-    ctx.font = 'bold 20px Georgia, serif';
+    const hasRevealed = this.revealedQuestions.size > 0;
+    ctx.fillStyle = '#0F2418';
+    ctx.font = hasRevealed ? 'bold 26px Georgia, serif' : 'bold 33px Georgia, serif';
+    const complaintLineHeight = hasRevealed ? 33 : 42;
+    const complaintStartY = hasRevealed ? counterY + 46 : counterY + 56;
+
     const nextY = wrapCanvasText(
       ctx,
       t(this.scenario.openingComplaint, locale),
-      36,
-      counterY + 46,
-      W - 72,
-      26
+      32,
+      complaintStartY,
+      W - 64,
+      complaintLineHeight
     );
 
-    // Revealed answers in bold 16.5px text
+    // Revealed answers in bold 23px text
     const keysOrder: TriageQuestionKey[] = ['fever', 'allergies', 'meds_pregnancy', 'duration'];
-    let ansY = Math.max(counterY + 106, nextY + 8);
-    ctx.font = 'bold 16px sans-serif';
+    let ansY = Math.max(counterY + 114, nextY + 6);
+    ctx.font = 'bold 22px sans-serif';
     for (const k of keysOrder) {
-      if (this.revealedQuestions.has(k) && ansY < H - 36) {
-        ctx.fillStyle = '#0D5C31';
-        const line = `• ${t(this.scenario.answers[k], locale)}`;
-        ctx.fillText(line.slice(0, 68), 36, ansY);
-        ansY += 23;
+      if (this.revealedQuestions.has(k) && ansY < H - 24) {
+        ctx.fillStyle = '#0B572B';
+        const line = `✓ ${t(this.scenario.answers[k], locale)}`;
+        ansY = wrapCanvasText(ctx, line, 32, ansY, W - 64, 27);
       }
     }
 
-    if (this.selectedRemedyId) {
+    if (!hasRevealed && !this.selectedRemedyId) {
+      ctx.fillStyle = '#166938';
+      ctx.font = 'bold 22px sans-serif';
+      ctx.fillText(
+        locale === 'es'
+          ? '👇 Usa los botones de abajo para interrogar y dispensar'
+          : '👇 Use the buttons below to ask questions & dispense',
+        32,
+        H - 28
+      );
+    } else if (this.selectedRemedyId) {
       const rem = VADEMECUM_ENTRIES.find((r) => r.id === this.selectedRemedyId);
       if (rem) {
         ctx.fillStyle = '#084724';
-        ctx.font = 'bold 17px sans-serif';
-        ctx.fillText(`✚ Rx: ${t(rem.name, locale)}`, 36, H - 22);
+        ctx.font = 'bold 23px sans-serif';
+        ctx.fillText(`✚ Rx: ${t(rem.name, locale)}`, 32, H - 24);
       }
     }
 

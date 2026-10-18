@@ -1,0 +1,761 @@
+:root {
+  /* Farmacia Gallego Brand Palette & Andalusian Pharmacy Greens */
+  --farmacia-bg-deep: #0b3620;
+  --farmacia-bg-mid: #135232;
+  --farmacia-bg-canopy: #1a6b41;
+  --gallego-lime: #a9c864;
+  --gallego-lime-bright: #bce070;
+  --gallego-gold: #c7b641;
+  --gallego-slate: #6f8695;
+  --maltese-neon: #00e676;
+  --card-mint: #f3faf0;
+  --card-mint-locked: #dcebe0;
+  --card-border-green: #84b866;
+  --text-forest: #0e2e1c;
+  --text-muted-green: #385a46;
+  --terracotta-warm: #c85a32;
+  --shadow-deep: 0 10px 26px rgba(4, 24, 14, 0.35);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: linear-gradient(155deg, var(--farmacia-bg-deep) 0%, var(--farmacia-bg-mid) 52%, #0e4027 100%);
+  color: var(--text-forest);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app-root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.farmacia-shell {
+  width: 100%;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 12px 16px calc(28px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Top Pharmacy Header Bar */
+.azulejo-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, #072616 0%, #114b2d 60%, #19643d 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  border: 2px solid var(--gallego-lime);
+  box-shadow: var(--shadow-deep);
+}
+
+.brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo-card {
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: 12px;
+  border: 2px solid var(--gallego-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.brand-logo-img {
+  height: 46px;
+  width: auto;
+  display: block;
+}
+
+.brand-h1 {
+  margin: 0;
+  font-size: clamp(1.1rem, 2.2vw, 1.42rem);
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.brand-sub {
+  margin: 2px 0 0;
+  font-size: 0.84rem;
+  color: var(--gallego-lime-bright);
+  font-weight: 600;
+}
+
+.header-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.stat-pill {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  background: rgba(169, 200, 100, 0.18);
+  border: 1.5px solid var(--gallego-lime);
+  color: #f4fce8;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-switcher {
+  display: inline-flex;
+  background: rgba(5, 22, 13, 0.55);
+  border: 1px solid rgba(169, 200, 100, 0.45);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.lang-btn {
+  min-height: 38px;
+  padding: 6px 11px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #d8edd2;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.lang-btn:hover {
+  background: rgba(169, 200, 100, 0.22);
+}
+
+.lang-btn.active {
+  background: var(--gallego-lime);
+  color: #082616;
+}
+
+.icon-action-btn {
+  min-height: 42px;
+  padding: 6px 13px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(169, 200, 100, 0.55);
+  background: rgba(169, 200, 100, 0.15);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+/* Farmacia Gallego Landing Hero Banner */
+.farmacia-hero-banner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 22px;
+  padding: 20px 24px;
+  background: linear-gradient(125deg, #124d2f 0%, #1c6e43 55%, #134e30 100%);
+  border: 2px solid var(--gallego-lime);
+  border-radius: 18px;
+  box-shadow: var(--shadow-deep);
+  color: #ffffff;
+}
+
+.hero-logo-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 3px solid var(--gallego-gold);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+}
+
+.hero-logo-img {
+  width: 175px;
+  height: auto;
+  display: block;
+}
+
+.guardia-neon-pill {
+  background: #082917;
+  color: var(--maltese-neon);
+  border: 1.5px solid var(--maltese-neon);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.hero-copy-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero-kicker {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--gallego-lime-bright);
+  text-transform: uppercase;
+}
+
+.hero-headline {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.4vw, 1.65rem);
+  color: #ffffff;
+}
+
+.hero-desc {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #e2f5e6;
+  max-width: 680px;
+}
+
+.hero-metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.hero-metric-chip {
+  background: rgba(7, 36, 21, 0.65);
+  border: 1px solid rgba(169, 200, 100, 0.6);
+  color: #f0fbe9;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.hero-cta-col {
+  display: flex;
+  align-items: center;
+}
+
+.hero-cta-btn {
+  min-height: 52px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  border: 2px solid #ffffff;
+  background: var(--gallego-lime);
+  color: #082616;
+  font-weight: 900;
+  font-size: 0.98rem;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.14s ease, background-color 0.14s ease;
+}
+
+.hero-cta-btn:hover {
+  background: var(--gallego-lime-bright);
+  transform: translateY(-2px);
+}
+
+/* Feedback Banner */
+.feedback-banner {
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.94rem;
+  box-shadow: var(--shadow-deep);
+}
+
+.feedback-pass {
+  background-color: #d8f8e3;
+  color: #074721;
+  border: 2px solid #00c853;
+}
+
+.feedback-fail {
+  background-color: #fde8e6;
+  color: #7d1914;
+  border: 2px solid #e74c3c;
+}
+
+/* Hub Navigation Tabs */
+.hub-tabs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 6px;
+  background: rgba(7, 36, 21, 0.55);
+  border-radius: 14px;
+  border: 1.5px solid rgba(169, 200, 100, 0.4);
+}
+
+.hub-tab-btn {
+  min-height: 44px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e7f6e9;
+  font-weight: 800;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.12s ease;
+}
+
+.hub-tab-btn:hover {
+  background: rgba(169, 200, 100, 0.25);
+}
+
+.hub-tab-btn.active {
+  background: var(--gallego-lime);
+  color: #082616;
+  border-color: #ffffff;
+}
+
+.reset-tab-btn {
+  margin-inline-start: auto;
+  background: rgba(192, 57, 43, 0.28);
+  border-color: rgba(231, 76, 60, 0.55);
+  color: #ffd6d2;
+}
+
+/* Grids for Campaign, Arcade, Shop & Vademecum */
+.campaign-grid,
+.arcade-grid,
+.shop-grid,
+.vademecum-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
+  gap: 16px;
+}
+
+.level-card,
+.arcade-card,
+.shop-card,
+.vademecum-card {
+  background: var(--card-mint);
+  border: 2px solid var(--card-border-green);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow-deep);
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  transition: transform 0.14s ease;
+}
+
+.level-card.unlocked:hover,
+.arcade-card:hover,
+.shop-card:hover {
+  transform: translateY(-2px);
+}
+
+.level-card.locked {
+  opacity: 0.78;
+  background: var(--card-mint-locked);
+  border-color: #6b8e78;
+}
+
+.level-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.level-title {
+  margin: 0;
+  font-size: 1.08rem;
+  color: var(--text-forest);
+}
+
+.temp-badge {
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 4px 9px;
+  border-radius: 8px;
+  background: #d4edd9;
+  color: #0e4a28;
+  border: 1px solid #82c493;
+  white-space: nowrap;
+}
+
+.temp-badge.hot {
+  background: #fde2dc;
+  color: #9e261b;
+  border-color: #e89587;
+}
+
+.level-location {
+  margin: 0;
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: #1c6b3d;
+}
+
+.level-brief {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted-green);
+}
+
+.task-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.task-chip {
+  font-size: 0.77rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #dff0d8;
+  border: 1px solid #9dc98b;
+  color: #133b22;
+}
+
+.level-card-footer {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(132, 184, 102, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.star-rating {
+  font-weight: 900;
+  color: #146c38;
+  font-size: 0.95rem;
+}
+
+.upgrade-price {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #146c38;
+}
+
+.vademecum-title {
+  margin: 0;
+  color: #0d4525;
+  font-size: 1.04rem;
+}
+
+.vademecum-active,
+.vademecum-ind,
+.vademecum-contra {
+  margin: 0;
+  font-size: 0.87rem;
+}
+
+/* Interactive Shift Stage (Desktop Split vs Mobile Stacked) */
+.shift-stage-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.shift-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--card-mint);
+  border: 2px solid var(--gallego-lime);
+  border-radius: 12px;
+  box-shadow: var(--shadow-deep);
+}
+
+.shift-stage-title {
+  font-weight: 800;
+  color: var(--text-forest);
+  font-size: 1.02rem;
+}
+
+.shift-timer-badge {
+  font-family: monospace;
+  font-size: 1.08rem;
+  font-weight: 900;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: #092e1a;
+  color: var(--maltese-neon);
+  border: 1.5px solid var(--maltese-neon);
+}
+
+.shift-split-pane {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.canvas-stage-container {
+  width: 100%;
+  background: #092616;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 3px solid var(--gallego-lime);
+  box-shadow: var(--shadow-deep);
+}
+
+.farmacia-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 800 / 500;
+  touch-action: none;
+  user-select: none;
+}
+
+.minigame-control-panel {
+  background: var(--card-mint);
+  border: 2px solid var(--gallego-lime);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: var(--shadow-deep);
+}
+
+.controls-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-section-title {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  color: var(--text-forest);
+}
+
+.control-hint {
+  margin: 0;
+  font-size: 0.87rem;
+  color: var(--text-muted-green);
+}
+
+.button-chip-grid,
+.arcade-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.choice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Touch-Friendly Buttons (Minimum 44x44px hit targets) */
+.primary-btn,
+.secondary-btn,
+.disabled-btn,
+.owned-btn,
+.danger-btn,
+.chip-btn,
+.choice-btn {
+  min-height: 44px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  cursor: pointer;
+  text-align: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.12s ease, transform 0.1s ease;
+}
+
+.choice-btn {
+  justify-content: flex-start;
+  background: #ffffff;
+  border: 1.5px solid #9bc488;
+  color: var(--text-forest);
+}
+
+.choice-btn.selected {
+  background: #d4f2db;
+  border-color: #146c38;
+  color: #072e17;
+}
+
+.chip-btn {
+  background: #e1f2dc;
+  border: 1.5px solid #8bbd75;
+  color: var(--text-forest);
+}
+
+.chip-btn.active {
+  background: #146c38;
+  border-color: #0b3d1f;
+  color: #ffffff;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #16793f 0%, #0f592e 100%);
+  border: 1.5px solid var(--gallego-lime);
+  color: #ffffff;
+}
+
+.primary-btn:hover {
+  background: linear-gradient(135deg, #1c914c 0%, #146e39 100%);
+}
+
+.secondary-btn {
+  background: #e3f0e5;
+  border: 1.5px solid #7ea887;
+  color: var(--text-forest);
+}
+
+.danger-btn {
+  background: #c0392b;
+  border: none;
+  color: #ffffff;
+}
+
+.disabled-btn,
+.owned-btn {
+  background: #c5d6c9;
+  border: 1px solid #9ab09f;
+  color: #4a6351;
+  cursor: not-allowed;
+}
+
+.full-width-btn {
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* Summary View & Modals */
+.summary-card {
+  background: var(--card-mint);
+  border: 3px solid var(--gallego-lime);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow-deep);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-outcomes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.outcome-row {
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.outcome-row.passed {
+  background: #d8f8e3;
+  color: #0b4a24;
+}
+
+.outcome-row.failed {
+  background: #fdedec;
+  color: #78281f;
+}
+
+.summary-btn-row,
+.modal-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 28, 16, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 100;
+}
+
+.modal-dialog {
+  background: var(--card-mint);
+  border: 2px solid var(--gallego-lime);
+  border-radius: 14px;
+  padding: 22px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: var(--shadow-deep);
+}
+
+/* Mobile Phone & Tablet Responsive Breakpoints */
+@media (max-width: 900px) {
+  .farmacia-hero-banner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .hero-metrics-row {
+    justify-content: center;
+  }
+
+  .shift-split-pane {
+    grid-template-columns: 1fr;
+  }
+
+  .azulejo-header {
+    padding: 10px 12px;
+  }
+
+  .reset-tab-btn {
+    margin-inline-start: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .farmacia-shell {
+    padding: 8px 8px calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .campaign-grid,
+  .arcade-grid,
+  .shop-grid,
+  .vademecum-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "farmacia-gallego",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Farmacia Gallego: Botica de Guardia — Multilingual (ES/EN) Andalusian Pharmacy Simulation & Mini-Game Collection",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
+  }
+}

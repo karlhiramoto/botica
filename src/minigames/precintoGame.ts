@@ -184,109 +184,108 @@ export class PrecintoMiniGame {
     // 2. Left Card: Hoja de Comprobación & Tarjeta Sanitaria Andaluza
     ctx.fillStyle = '#FFFDF7';
     ctx.beginPath();
-    ctx.roundRect(30, 32, 345, 436, 10);
+    ctx.roundRect(22, 24, 360, 450, 12);
     ctx.fill();
     ctx.strokeStyle = '#007A33';
     ctx.lineWidth = 3;
     ctx.stroke();
 
     ctx.fillStyle = '#007A33';
-    ctx.fillRect(46, 48, 313, 36);
+    ctx.fillRect(36, 38, 332, 42);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 13px sans-serif';
+    ctx.font = 'bold 18px sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText('TARJETA SANITARIA • JUNTA DE ANDALUCÍA', 58, 71);
+    ctx.fillText('TARJETA SANITARIA ANDALUZA', 48, 66);
 
-    ctx.fillStyle = '#1B2631';
-    ctx.font = 'bold 13px sans-serif';
-    ctx.fillText(t(this.order.patientRegimeLabel, locale), 48, 110);
-    ctx.font = '13px sans-serif';
-    ctx.fillStyle = '#37474F';
+    ctx.fillStyle = '#0D351E';
+    ctx.font = 'bold 20px sans-serif';
+    ctx.fillText(t(this.order.patientRegimeLabel, locale), 38, 110);
+    ctx.font = 'bold 23px sans-serif';
+    ctx.fillStyle = '#146C38';
     const pvpStr = formatCurrencyEur(this.order.retailPriceEur, locale);
-    ctx.fillText(`PVP: ${pvpStr}`, 48, 134);
+    ctx.fillText(`PVP: ${pvpStr}`, 38, 144);
 
     // Barcode Coupon Attachment Box on the Slip
     ctx.strokeStyle = '#90A4AE';
-    ctx.setLineDash([5, 4]);
-    ctx.strokeRect(56, 165, 290, 96);
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([6, 4]);
+    ctx.strokeRect(42, 165, 320, 102);
     ctx.setLineDash([]);
 
     if (this.isCutComplete()) {
       ctx.fillStyle = '#F4F6F7';
-      ctx.fillRect(68, 175, 266, 76);
+      ctx.fillRect(52, 175, 300, 82);
       // Barcode stripes
       ctx.fillStyle = '#111111';
-      for (let bx = 84; bx < 312; bx += 7) {
-        ctx.fillRect(bx, 186, (bx % 3) + 2, 36);
+      for (let bx = 70; bx < 330; bx += 7) {
+        ctx.fillRect(bx, 184, (bx % 3) + 2, 38);
       }
-      ctx.font = 'bold 11px monospace';
+      ctx.font = 'bold 17px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('CUPÓN PRECINTO SNS • A.S.S.S.', 200, 240);
+      ctx.fillText('CUPÓN PRECINTO SNS', 202, 246);
     } else {
-      ctx.fillStyle = '#78909C';
-      ctx.font = '12.5px sans-serif';
+      ctx.fillStyle = '#455A64';
+      ctx.font = 'bold 19px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(
-        locale === 'es'
-          ? 'Pega aquí el Cupón Precinto tras cortarlo'
-          : 'Attach sliced Cupón Precinto barcode here',
-        200,
-        216
+        locale === 'es' ? 'Pega aquí el Cupón Precinto' : 'Attach Cupón Precinto here',
+        202,
+        222
       );
     }
 
     // Rubber Stamp Target Zone (Sello Farmacia Gallego)
-    ctx.strokeStyle = '#1D4E89';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(56, 290, 290, 110);
+    ctx.strokeStyle = '#166938';
+    ctx.lineWidth = 2.5;
+    ctx.strokeRect(42, 286, 320, 128);
     if (this.stamped) {
       ctx.save();
-      ctx.translate(200, 345);
-      ctx.rotate(-0.08);
-      ctx.strokeStyle = '#1D4E89';
-      ctx.lineWidth = 3;
-      ctx.strokeRect(-115, -34, 230, 68);
-      ctx.fillStyle = '#1D4E89';
-      ctx.font = 'bold 14px Georgia, serif';
+      ctx.translate(202, 350);
+      ctx.rotate(-0.06);
+      ctx.strokeStyle = '#146C38';
+      ctx.lineWidth = 3.5;
+      ctx.strokeRect(-138, -42, 276, 84);
+      ctx.fillStyle = '#146C38';
+      ctx.font = 'bold 20px Georgia, serif';
       ctx.textAlign = 'center';
-      ctx.fillText('✚ FARMACIA GALLEGO ✚', 0, -8);
-      ctx.font = 'bold 11px monospace';
-      ctx.fillText('BOTICA DE GUARDIA • ANDALUCÍA', 0, 12);
-      ctx.fillText('DISPENSACIÓN VERIFICADA', 0, 26);
+      ctx.fillText('✚ FARMACIA GALLEGO ✚', 0, -10);
+      ctx.font = 'bold 16px monospace';
+      ctx.fillText('BOTICA DE GUARDIA', 0, 14);
+      ctx.fillText('DISPENSACIÓN VERIFICADA', 0, 34);
       ctx.restore();
     } else {
-      ctx.fillStyle = '#78909C';
-      ctx.font = '12.5px sans-serif';
+      ctx.fillStyle = '#455A64';
+      ctx.font = 'bold 19px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText(
         locale === 'es'
-          ? 'Pulsa «Estampar Sello Farmacia Gallego»'
-          : 'Tap "Stamp Farmacia Gallego Seal"',
-        200,
-        348
+          ? 'Estampar Sello Farmacia Gallego'
+          : 'Stamp Farmacia Gallego Seal',
+        202,
+        356
       );
     }
 
     // 3. Right Side: 3D-Styled Medicine Box & Perforated Cupón Precinto Flap
-    const boxX = 415;
+    const boxX = 408;
     const boxY = 85;
-    const boxW = 345;
-    const boxH = 290;
+    const boxW = 368;
+    const boxH = 295;
 
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
     ctx.roundRect(boxX, boxY, boxW, boxH, 10);
     ctx.fill();
     ctx.fillStyle = this.order.boxColor;
-    ctx.fillRect(boxX, boxY + 135, boxW, 140);
+    ctx.fillRect(boxX, boxY + 135, boxW, 145);
 
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 16px sans-serif';
+    ctx.font = 'bold 24px sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText(this.order.medicationBoxTitle, boxX + 20, boxY + 175);
-    ctx.font = '13px sans-serif';
+    ctx.fillText(this.order.medicationBoxTitle, boxX + 20, boxY + 182);
+    ctx.font = 'bold 19px sans-serif';
     ctx.fillStyle = '#E8EEF5';
-    ctx.fillText(t(this.order.activePrinciple, locale), boxX + 20, boxY + 202);
+    ctx.fillText(t(this.order.activePrinciple, locale), boxX + 20, boxY + 216);
 
     // Cupón Precinto Perforated Flap at top of box (y = 85..175)
     const startX = PrecintoMiniGame.CUT_START_X;
@@ -298,11 +297,11 @@ export class PrecintoMiniGame {
       ctx.fillRect(startX, boxY + 12, endX - startX, lineY - (boxY + 12));
       ctx.fillStyle = '#111111';
       for (let bx = startX + 18; bx < endX - 18; bx += 7) {
-        ctx.fillRect(bx, boxY + 26, (bx % 3) + 2, 34);
+        ctx.fillRect(bx, boxY + 24, (bx % 3) + 2, 32);
       }
-      ctx.font = 'bold 11px monospace';
+      ctx.font = 'bold 17px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('CUPÓN PRECINTO • CORTE AQUÍ ✂️', (startX + endX) / 2, boxY + 75);
+      ctx.fillText('CORTE AQUÍ ✂️', (startX + endX) / 2, boxY + 76);
     }
 
     // Safe green cut corridor & dotted perforation line
@@ -315,7 +314,7 @@ export class PrecintoMiniGame {
     );
 
     ctx.strokeStyle = '#D9534F';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2.5;
     ctx.setLineDash([6, 5]);
     ctx.beginPath();
     ctx.moveTo(startX, lineY);
@@ -326,7 +325,7 @@ export class PrecintoMiniGame {
     // Active cut line progress
     const currentCutX = startX + (endX - startX) * this.cutProgress;
     ctx.strokeStyle = '#00E676';
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 5;
     ctx.beginPath();
     ctx.moveTo(startX, lineY);
     ctx.lineTo(currentCutX, lineY);
@@ -335,22 +334,22 @@ export class PrecintoMiniGame {
     // Scalpel handle icon
     ctx.fillStyle = '#FFB300';
     ctx.beginPath();
-    ctx.arc(this.cutterX, this.cutterY, 11, 0, Math.PI * 2);
+    ctx.arc(this.cutterX, this.cutterY, 13, 0, Math.PI * 2);
     ctx.fill();
     ctx.strokeStyle = '#263238';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2.5;
     ctx.stroke();
 
     // Footer status
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 14px sans-serif';
+    ctx.font = 'bold 22px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(
       locale === 'es'
-        ? `Progreso de Corte del Precinto: ${formatPercent(this.cutProgress, locale)}`
-        : `Barcode Cut Progress: ${formatPercent(this.cutProgress, locale)}`,
+        ? `Corte del Precinto: ${formatPercent(this.cutProgress, locale)}`
+        : `Barcode Cut: ${formatPercent(this.cutProgress, locale)}`,
       boxX + boxW / 2,
-      415
+      422
     );
 
     ctx.restore();

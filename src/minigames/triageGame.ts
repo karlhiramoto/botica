@@ -91,7 +91,6 @@ export class TriageMiniGame {
       this.selectedCounselingId === this.scenario.correctCounselingId;
     const askedCount = this.revealedQuestions.size;
 
-    // Asking at least 2 relevant clinical questions grants full diagnostic bonus
     const investigationBonus = askedCount >= 2 ? 15 : askedCount === 1 ? 8 : 0;
     const patienceBonus = Math.round((this.patience / 100) * 15);
 
@@ -127,7 +126,7 @@ export class TriageMiniGame {
     // 1. Sunlit Andalusian limewashed wall background
     const wallGrad = ctx.createLinearGradient(0, 0, 0, H);
     wallGrad.addColorStop(0, '#FDF8EC');
-    wallGrad.addColorStop(0.68, '#F3E6CE');
+    wallGrad.addColorStop(0.62, '#F3E6CE');
     wallGrad.addColorStop(1, '#D8C3A5');
     ctx.fillStyle = wallGrad;
     ctx.fillRect(0, 0, W, H);
@@ -135,213 +134,194 @@ export class TriageMiniGame {
     // 2. Hand-painted Sevillian Azulejo ceramic tile border along top wall
     const tileSize = 40;
     for (let x = 0; x < W; x += tileSize) {
-      ctx.fillStyle = (x / tileSize) % 2 === 0 ? '#1D4E89' : '#E8EEF5';
+      ctx.fillStyle = (x / tileSize) % 2 === 0 ? '#165B38' : '#E8F5E9';
       ctx.fillRect(x, 0, tileSize, 26);
-      ctx.strokeStyle = '#C85A32';
+      ctx.strokeStyle = '#C7B641';
       ctx.lineWidth = 1.5;
       ctx.strokeRect(x + 3, 3, tileSize - 6, 20);
     }
 
-    // 3. Wooden Apothecary Shelves in background
+    // 3. Wooden Apothecary Shelves in background (left)
     ctx.fillStyle = '#6E472B';
-    ctx.fillRect(36, 46, 250, 175);
+    ctx.fillRect(24, 38, 210, 155);
     ctx.fillStyle = '#52331D';
     for (let row = 0; row < 3; row++) {
-      const sy = 56 + row * 54;
-      ctx.fillRect(46, sy, 230, 42);
-      // Porcelain apothecary albarelo jars on shelves
-      for (let j = 0; j < 5; j++) {
-        const jx = 58 + j * 44;
+      const sy = 46 + row * 48;
+      ctx.fillRect(32, sy, 194, 38);
+      for (let j = 0; j < 4; j++) {
+        const jx = 42 + j * 46;
         ctx.fillStyle = '#FAF5E8';
-        ctx.fillRect(jx, sy + 8, 24, 30);
-        ctx.fillStyle = '#1D4E89';
-        ctx.fillRect(jx + 3, sy + 16, 18, 10);
+        ctx.fillRect(jx, sy + 6, 24, 28);
+        ctx.fillStyle = '#165B38';
+        ctx.fillRect(jx + 3, sy + 14, 18, 9);
       }
       ctx.fillStyle = '#52331D';
     }
 
     // 4. Illuminated Green Maltese Cross (Cruz de Farmacia Gallego)
-    const crossCx = 695;
-    const crossCy = 98;
+    const crossCx = 702;
+    const crossCy = 88;
     const pulse = 0.85 + 0.15 * Math.sin(this.elapsedSec * 3.5);
-    ctx.fillStyle = `rgba(0, 200, 83, ${0.18 * pulse})`;
+    ctx.fillStyle = `rgba(0, 200, 83, ${0.22 * pulse})`;
     ctx.beginPath();
-    ctx.arc(crossCx, crossCy, 54, 0, Math.PI * 2);
+    ctx.arc(crossCx, crossCy, 56, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.fillStyle = '#0A2E1A';
     ctx.strokeStyle = '#00C853';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.roundRect(crossCx - 58, crossCy - 42, 116, 84, 10);
+    ctx.roundRect(crossCx - 66, crossCy - 44, 132, 88, 12);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#00E676';
-    ctx.fillRect(crossCx - 8, crossCy - 30, 16, 24);
-    ctx.fillRect(crossCx - 34, crossCy - 18, 68, 14);
-    ctx.font = 'bold 14px monospace';
+    ctx.fillRect(crossCx - 9, crossCy - 32, 18, 26);
+    ctx.fillRect(crossCx - 36, crossCy - 20, 72, 14);
+    ctx.font = 'bold 17px monospace';
     ctx.textAlign = 'center';
-    ctx.fillText(`${ambientTempC}°C • GALLEGO`, crossCx, crossCy + 24);
+    ctx.fillText(`${ambientTempC}°C GALLEGO`, crossCx, crossCy + 26);
 
     // 5. Customer Avatar at the Counter
-    const custX = 415;
-    const custY = 235;
+    const custX = 435;
+    const custY = 185;
     const bobOffset = Math.sin(this.elapsedSec * 2.4) * 3;
 
     // Shoulders / torso
     ctx.fillStyle = this.scenario.avatarColor;
     ctx.beginPath();
-    ctx.roundRect(custX - 58, custY - 12 + bobOffset, 116, 98, 28);
+    ctx.roundRect(custX - 66, custY - 6 + bobOffset, 132, 95, 30);
     ctx.fill();
 
     // Head
     const isSunburned = this.scenario.symptomVisual === 'sunburn';
     ctx.fillStyle = isSunburned ? '#F2796B' : '#F4C9A4';
     ctx.beginPath();
-    ctx.arc(custX, custY - 52 + bobOffset, 40, 0, Math.PI * 2);
+    ctx.arc(custX, custY - 46 + bobOffset, 44, 0, Math.PI * 2);
     ctx.fill();
     ctx.strokeStyle = '#4A3222';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2.5;
     ctx.stroke();
 
-    // Facial expression & visual symptom indicators
+    // Eyes & Mouth
     ctx.fillStyle = '#2B1D14';
     ctx.beginPath();
-    ctx.arc(custX - 14, custY - 58 + bobOffset, 4, 0, Math.PI * 2);
-    ctx.arc(custX + 14, custY - 58 + bobOffset, 4, 0, Math.PI * 2);
+    ctx.arc(custX - 15, custY - 52 + bobOffset, 4.5, 0, Math.PI * 2);
+    ctx.arc(custX + 15, custY - 52 + bobOffset, 4.5, 0, Math.PI * 2);
     ctx.fill();
 
-    // Concerned mouth arc
     ctx.beginPath();
-    ctx.arc(custX, custY - 34 + bobOffset, 10, Math.PI * 1.15, Math.PI * 1.85);
+    ctx.arc(custX, custY - 26 + bobOffset, 11, Math.PI * 1.15, Math.PI * 1.85);
     ctx.stroke();
 
     if (this.scenario.symptomVisual === 'pollen_sneeze') {
-      // Olive pollen golden particles around nose
       ctx.fillStyle = '#D4AF37';
       for (let i = 0; i < 7; i++) {
         const angle = this.elapsedSec * 1.8 + i * 0.9;
-        const px = custX + Math.cos(angle) * 52;
-        const py = custY - 50 + Math.sin(angle * 1.3) * 28;
+        const px = custX + Math.cos(angle) * 56;
+        const py = custY - 44 + Math.sin(angle * 1.3) * 30;
         ctx.beginPath();
-        ctx.arc(px, py, 4, 0, Math.PI * 2);
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
         ctx.fill();
       }
     } else if (this.scenario.symptomVisual === 'chest_alert') {
-      // Red warning pulse ring
-      ctx.strokeStyle = 'rgba(217, 48, 37, 0.75)';
-      ctx.lineWidth = 3;
+      ctx.strokeStyle = 'rgba(217, 48, 37, 0.85)';
+      ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.arc(custX, custY - 10, 62 + Math.sin(this.elapsedSec * 6) * 6, 0, Math.PI * 2);
+      ctx.arc(custX, custY - 6, 68 + Math.sin(this.elapsedSec * 6) * 6, 0, Math.PI * 2);
       ctx.stroke();
     } else if (this.scenario.symptomVisual === 'fever_sweat') {
       ctx.fillStyle = '#3898EC';
       ctx.beginPath();
-      ctx.arc(custX + 26, custY - 68 + bobOffset, 5, 0, Math.PI * 2);
+      ctx.arc(custX + 28, custY - 64 + bobOffset, 6, 0, Math.PI * 2);
       ctx.fill();
     }
 
     // 6. Mahogany Pharmacy Counter Foreground (Mostrador Farmacia Gallego)
-    const counterY = 305;
+    const counterY = 250;
     const woodGrad = ctx.createLinearGradient(0, counterY, 0, H);
-    woodGrad.addColorStop(0, '#8B5A2B');
-    woodGrad.addColorStop(0.15, '#6B4226');
-    woodGrad.addColorStop(1, '#4A2C18');
+    woodGrad.addColorStop(0, '#784B25');
+    woodGrad.addColorStop(0.15, '#5C3719');
+    woodGrad.addColorStop(1, '#3D230E');
     ctx.fillStyle = woodGrad;
     ctx.fillRect(0, counterY, W, H - counterY);
 
-    ctx.fillStyle = '#D4AF37';
+    ctx.fillStyle = '#C7B641';
     ctx.fillRect(0, counterY, W, 6);
 
-    // Brass plaque on counter
-    ctx.fillStyle = '#F5E1A4';
-    ctx.beginPath();
-    ctx.roundRect(26, counterY + 20, 235, 48, 6);
-    ctx.fill();
-    ctx.strokeStyle = '#8C6D1F';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = '#3B2313';
-    ctx.font = 'bold 14px Georgia, serif';
-    ctx.textAlign = 'left';
-    ctx.fillText('FARMACIA GALLEGO', 40, counterY + 41);
-    ctx.font = '12px sans-serif';
-    ctx.fillText(
-      locale === 'es' ? 'Mostrador de Atención' : 'Pharmacist Triage Counter',
-      40,
-      counterY + 58
-    );
-
-    // 7. Customer Nameplate & Patience Bar
+    // 7. Large Mobile-Friendly Customer Name Banner & Patience Bar
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
-    ctx.roundRect(28, 240, 250, 52, 8);
+    ctx.roundRect(20, 198, 325, 46, 10);
     ctx.fill();
-    ctx.strokeStyle = '#1D4E89';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#165B38';
+    ctx.lineWidth = 3;
     ctx.stroke();
 
-    ctx.fillStyle = '#142B47';
+    ctx.fillStyle = '#0D3B22';
+    ctx.font = 'bold 19px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(this.scenario.customerName, 32, 221);
     ctx.font = 'bold 14px sans-serif';
-    ctx.fillText(this.scenario.customerName, 40, 260);
-    ctx.font = '12px sans-serif';
-    ctx.fillStyle = '#4A607A';
-    ctx.fillText(t(this.scenario.customerRole, locale), 40, 278);
+    ctx.fillStyle = '#385A46';
+    ctx.fillText(t(this.scenario.customerRole, locale), 32, 238);
 
-    // Patience gauge on counter
-    const patLabel = locale === 'es' ? 'Paciencia:' : 'Patience:';
-    ctx.fillStyle = '#FAF5E8';
-    ctx.font = 'bold 12px sans-serif';
-    ctx.fillText(patLabel, 28, counterY + 90);
-    ctx.fillStyle = 'rgba(0,0,0,0.35)';
-    ctx.fillRect(102, counterY + 78, 156, 14);
-    ctx.fillStyle = this.patience > 45 ? '#2ECC71' : '#E67E22';
-    ctx.fillRect(102, counterY + 78, (156 * this.patience) / 100, 14);
+    // Patience pill on top right of counter
+    ctx.fillStyle = '#092916';
+    ctx.beginPath();
+    ctx.roundRect(535, 202, 245, 40, 10);
+    ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 15px sans-serif';
+    ctx.fillText(
+      locale === 'es'
+        ? `Paciencia: ${Math.round(this.patience)}%`
+        : `Patience: ${Math.round(this.patience)}%`,
+      550,
+      227
+    );
+    ctx.fillStyle = this.patience > 45 ? '#00E676' : '#FF9800';
+    ctx.fillRect(685, 214, (80 * this.patience) / 100, 16);
 
-    // 8. Dialogue & Revealed Clinical Notes Card on Counter
+    // 8. Large, High-Contrast Patient Speech Box on Counter (Readable on iPhone!)
     ctx.fillStyle = '#FFFDF9';
     ctx.beginPath();
-    ctx.roundRect(285, counterY + 16, 490, 168, 10);
+    ctx.roundRect(18, counterY + 14, W - 36, H - counterY - 26, 12);
     ctx.fill();
-    ctx.strokeStyle = '#C85A32';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#84B866';
+    ctx.lineWidth = 3;
     ctx.stroke();
 
-    ctx.fillStyle = '#241911';
-    ctx.font = 'italic 14px Georgia, serif';
-    wrapCanvasText(
+    ctx.fillStyle = '#14261C';
+    ctx.font = 'bold 20px Georgia, serif';
+    const nextY = wrapCanvasText(
       ctx,
       t(this.scenario.openingComplaint, locale),
-      302,
-      counterY + 38,
-      456,
-      19
+      36,
+      counterY + 46,
+      W - 72,
+      26
     );
 
-    // Revealed answers list
+    // Revealed answers in bold 16.5px text
     const keysOrder: TriageQuestionKey[] = ['fever', 'allergies', 'meds_pregnancy', 'duration'];
-    let ansY = counterY + 86;
-    ctx.font = '12.5px sans-serif';
+    let ansY = Math.max(counterY + 106, nextY + 8);
+    ctx.font = 'bold 16px sans-serif';
     for (const k of keysOrder) {
-      if (this.revealedQuestions.has(k)) {
-        ctx.fillStyle = '#1D4E89';
+      if (this.revealedQuestions.has(k) && ansY < H - 36) {
+        ctx.fillStyle = '#0D5C31';
         const line = `• ${t(this.scenario.answers[k], locale)}`;
-        ctx.fillText(line.slice(0, 74), 302, ansY);
-        ansY += 20;
+        ctx.fillText(line.slice(0, 68), 36, ansY);
+        ansY += 23;
       }
     }
 
     if (this.selectedRemedyId) {
       const rem = VADEMECUM_ENTRIES.find((r) => r.id === this.selectedRemedyId);
       if (rem) {
-        ctx.fillStyle = '#0A5C36';
-        ctx.font = 'bold 12.5px sans-serif';
-        ctx.fillText(
-          `Rx: ${t(rem.name, locale)}`,
-          302,
-          counterY + 172
-        );
+        ctx.fillStyle = '#084724';
+        ctx.font = 'bold 17px sans-serif';
+        ctx.fillText(`✚ Rx: ${t(rem.name, locale)}`, 36, H - 22);
       }
     }
 
@@ -356,7 +336,7 @@ function wrapCanvasText(
   y: number,
   maxWidth: number,
   lineHeight: number
-): void {
+): number {
   const words = text.split(' ');
   let line = '';
   let currY = y;
@@ -373,5 +353,7 @@ function wrapCanvasText(
   }
   if (line.trim()) {
     ctx.fillText(line.trim(), x, currY);
+    currY += lineHeight;
   }
+  return currY;
 }

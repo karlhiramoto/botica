@@ -13,6 +13,7 @@ import type { GameCoordinator, ShiftSummaryResult } from '../engine/gameCoordina
 import {
   formatCurrencyEur,
   formatMassGrams,
+  formatPercent,
   formatTempC,
   formatVolumeMl,
   t,
@@ -693,7 +694,12 @@ export class FarmaciaAppUi {
 
       if (active.type === 'handwriting') {
         if (isDown || (isMove && this.isPointerDragging) || ev.pointerType === 'mouse') {
+          const prevRatio = active.game.getInspectedRatio();
           active.game.moveLoupe(pt.x, pt.y);
+          if (prevRatio < 0.4 && active.game.getInspectedRatio() >= 0.4) {
+            this.render();
+            return;
+          }
           this.drawActiveCanvasFrame();
         }
       } else if (active.type === 'compounding') {
@@ -759,6 +765,47 @@ export class FarmaciaAppUi {
 
     if (active.type === 'triage') {
       const game = active.game;
+
+      // Mobile-First High-Legibility Patient Card (Large 17px-19px text for iPhone!)
+      const patientCard = el('div', 'patient-dialogue-card');
+      const patHeader = el('div', 'patient-card-header');
+      const patName = el(
+        'h2',
+        'patient-card-name',
+        `🗣️ ${game.scenario.customerName} (${t(game.scenario.customerRole, locale)})`
+      );
+      patHeader.appendChild(patName);
+
+      const complaintText = el(
+        'p',
+        'patient-complaint-quote',
+        t(game.scenario.openingComplaint, locale)
+      );
+      patientCard.append(patHeader, complaintText);
+
+      // Show revealed clinical answers in large, readable cards
+      const keysOrder: TriageQuestionKey[] = [
+        'fever',
+        'allergies',
+        'meds_pregnancy',
+        'duration',
+      ];
+      const revealedList = el('div', 'patient-answers-list');
+      for (const k of keysOrder) {
+        if (game.isQuestionRevealed(k)) {
+          const ansItem = el(
+            'div',
+            'patient-answer-item',
+            `• ${t(game.scenario.answers[k], locale)}`
+          );
+          revealedList.appendChild(ansItem);
+        }
+      }
+      if (revealedList.childElementCount > 0) {
+        patientCard.appendChild(revealedList);
+      }
+      box.appendChild(patientCard);
+
       box.appendChild(el('h3', 'panel-section-title', t(UI_STRINGS.triage.askHeader, locale)));
 
       const qRow = el('div', 'button-chip-grid');
@@ -797,7 +844,7 @@ export class FarmaciaAppUi {
         const btn = el(
           'button',
           isSel ? 'choice-btn selected' : 'choice-btn',
-          `${t(rem.name, locale)} — ${t(rem.indication, locale).slice(0, 62)}...`
+          `${t(rem.name, locale)} — ${t(rem.indication, locale)}`
         );
         btn.id = `triage-remedy-${rem.id}`;
         btn.type = 'button';
@@ -866,6 +913,41 @@ export class FarmaciaAppUi {
 
     if (active.type === 'handwriting') {
       const game = active.game;
+
+      // Mobile-First Prescription Patient Card
+      const rxCard = el('div', 'patient-dialogue-card');
+      const ageUnit = locale === 'es' ? 'años' : 'yrs';
+      const patHeadline = el(
+        'h2',
+        'patient-card-name',
+        `📋 ${game.scenario.patientName} (${game.scenario.patientAge} ${ageUnit})`
+      );
+      const docLine = el(
+        'p',
+        'patient-card-sub',
+        `${game.scenario.doctorName} • ${t(game.scenario.clinicSpecialty, locale)}`
+      );
+      const contextLine = el(
+        'p',
+        'patient-complaint-quote',
+        t(game.scenario.patientContext, locale)
+      );
+      rxCard.append(patHeadline, docLine, contextLine);
+
+      if (
+        game.isUvActive() ||
+        game.hasUvUpgrade ||
+        game.getInspectedRatio() >= 0.4
+      ) {
+        const clueBox = el(
+          'div',
+          'patient-answer-item',
+          `🔎 ${t(game.scenario.watermarkHint, locale)}`
+        );
+        rxCard.appendChild(clueBox);
+      }
+      box.appendChild(rxCard);
+
       const hint = el('p', 'control-hint', t(UI_STRINGS.handwriting.instructions, locale));
       box.appendChild(hint);
 
@@ -981,14 +1063,29 @@ export class FarmaciaAppUi {
       const game = active.game;
       const step = game.getStep();
 
+      // Mobile-First Lab Formula Card
+      const labCard = el('div', 'patient-dialogue-card');
+      const labTitle = el(
+        'h2',
+        'patient-card-name',
+        `⚗️ ${t(game.recipe.name, locale)}`
+      );
+      const labInd = el(
+        'p',
+        'patient-complaint-quote',
+        t(game.recipe.patientIndication, locale)
+      );
+      labCard.append(labTitle, labInd);
+      box.appendChild(labCard);
+
       if (step === 'WEIGH') {
         box.appendChild(
           el('h3', 'panel-section-title', t(UI_STRINGS.compounding.stepWeigh, locale))
         );
         const status = el(
-          'p',
-          'control-hint',
-          `${formatMassGrams(game.getCurrentMassGrams(), locale)} / ${formatMassGrams(game.recipe.targetMassGrams, locale)}`
+          'div',
+          'patient-answer-item',
+          `${t(game.recipe.powderName, locale)}: ${formatMassGrams(game.getCurrentMassGrams(), locale)} / ${formatMassGrams(game.recipe.targetMassGrams, locale)} (± ${formatMassGrams(game.effectiveMassTolerance, locale)})`
         );
         box.appendChild(status);
 
@@ -1040,6 +1137,13 @@ export class FarmaciaAppUi {
         box.appendChild(
           el('h3', 'panel-section-title', t(UI_STRINGS.compounding.stepGrind, locale))
         );
+        const status = el(
+          'div',
+          'patient-answer-item',
+          `${locale === 'es' ? 'Homogeneización' : 'Homogenization'}: ${formatPercent(game.getGrindProgress(), locale)}`
+        );
+        box.appendChild(status);
+
         const swirlBtn = el(
           'button',
           'primary-btn full-width-btn',
@@ -1058,9 +1162,9 @@ export class FarmaciaAppUi {
           el('h3', 'panel-section-title', t(UI_STRINGS.compounding.stepMeasure, locale))
         );
         const status = el(
-          'p',
-          'control-hint',
-          `${formatVolumeMl(game.getCurrentLiquidMl(), locale)} / ${formatVolumeMl(game.recipe.targetLiquidMl, locale)}`
+          'div',
+          'patient-answer-item',
+          `${t(game.recipe.liquidName, locale)}: ${formatVolumeMl(game.getCurrentLiquidMl(), locale)} / ${formatVolumeMl(game.recipe.targetLiquidMl, locale)} (± ${formatVolumeMl(game.effectiveLiquidTolerance, locale)})`
         );
         box.appendChild(status);
 
@@ -1116,6 +1220,13 @@ export class FarmaciaAppUi {
         box.appendChild(
           el('h3', 'panel-section-title', t(UI_STRINGS.compounding.stepHeat, locale))
         );
+        const status = el(
+          'div',
+          'patient-answer-item',
+          `🌡️ ${formatTempC(game.getCurrentBathTempC(), locale)} / ${formatTempC(game.recipe.targetBathTempC, locale)} (± ${formatTempC(game.effectiveTempTolerance, locale)}) • ${formatPercent(game.getThermalHoldProgress(), locale)}`
+        );
+        box.appendChild(status);
+
         const heatBtn = el(
           'button',
           'primary-btn full-width-btn',
@@ -1168,6 +1279,27 @@ export class FarmaciaAppUi {
 
     if (active.type === 'precinto') {
       const game = active.game;
+
+      // Mobile-First Patient Tarjeta Sanitaria & Box Card
+      const precintoCard = el('div', 'patient-dialogue-card');
+      const boxTitle = el(
+        'h2',
+        'patient-card-name',
+        `📦 ${game.order.medicationBoxTitle}`
+      );
+      const regimeQuote = el(
+        'p',
+        'patient-complaint-quote',
+        t(game.order.patientRegimeLabel, locale)
+      );
+      const pvpLine = el(
+        'div',
+        'patient-answer-item',
+        `PVP: ${formatCurrencyEur(game.order.retailPriceEur, locale)} • ${t(game.order.activePrinciple, locale)}`
+      );
+      precintoCard.append(boxTitle, regimeQuote, pvpLine);
+      box.appendChild(precintoCard);
+
       box.appendChild(el('p', 'control-hint', t(UI_STRINGS.precinto.instructions, locale)));
 
       const sliceBtn = el(

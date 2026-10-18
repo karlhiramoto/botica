@@ -550,18 +550,81 @@ body {
 .controls-inner {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+}
+
+/* Mobile-First High-Legibility Patient & Clinical Dialogue Card */
+.patient-dialogue-card {
+  background: #ffffff;
+  border: 2.5px solid #16793f;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 12px rgba(9, 46, 26, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.patient-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.patient-card-name {
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.3;
+  color: #09351c;
+}
+
+.patient-card-sub {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2f5c41;
+}
+
+.patient-complaint-quote {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  font-weight: 700;
+  color: #112a1c;
+  background: #ecf8ee;
+  border-inline-start: 4px solid #16793f;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.patient-answers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.patient-answer-item {
+  font-size: 1.02rem;
+  line-height: 1.45;
+  font-weight: 700;
+  color: #0b4624;
+  background: #dff3e4;
+  border: 1.5px solid #7fc291;
+  padding: 9px 12px;
+  border-radius: 8px;
 }
 
 .panel-section-title {
   margin: 4px 0 0;
-  font-size: 0.95rem;
+  font-size: 1.04rem;
   color: var(--text-forest);
 }
 
 .control-hint {
   margin: 0;
-  font-size: 0.87rem;
+  font-size: 0.96rem;
+  font-weight: 600;
   color: var(--text-muted-green);
 }
 
@@ -586,11 +649,12 @@ body {
 .danger-btn,
 .chip-btn,
 .choice-btn {
-  min-height: 44px;
-  padding: 10px 15px;
+  min-height: 46px;
+  padding: 11px 16px;
   border-radius: 10px;
   font-weight: 800;
-  font-size: 0.88rem;
+  font-size: 0.98rem;
+  line-height: 1.4;
   cursor: pointer;
   text-align: start;
   display: inline-flex;
@@ -750,6 +814,28 @@ body {
 @media (max-width: 520px) {
   .farmacia-shell {
     padding: 8px 8px calc(18px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .patient-card-name {
+    font-size: 1.22rem;
+  }
+
+  .patient-complaint-quote {
+    font-size: 1.15rem;
+    line-height: 1.52;
+    padding: 12px 14px;
+  }
+
+  .patient-answer-item {
+    font-size: 1.06rem;
+    line-height: 1.48;
+    padding: 10px 13px;
+  }
+
+  .choice-btn,
+  .chip-btn {
+    font-size: 1rem;
+    padding: 12px 14px;
   }
 
   .campaign-grid,

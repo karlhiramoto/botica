@@ -122,16 +122,16 @@ export class ColdChainMiniGame {
   public handleCanvasTap(virtualX: number, virtualY: number, locale: Locale): void {
     if (this.result) return;
 
-    // 1. Check if player tapped one of the 5 destination zones along top half (y in [82..220])
+    // 1. Check if player tapped one of the 5 destination zones along top half (y in [74..216])
     const zones: Array<{ dest: StorageDestination; x: number; w: number }> = [
-      { dest: 'fridge_cold', x: 24, w: 144 },
-      { dest: 'safe_estupefacientes', x: 178, w: 144 },
-      { dest: 'drawer_a_m', x: 332, w: 144 },
-      { dest: 'drawer_n_z', x: 486, w: 144 },
-      { dest: 'sigre_expired', x: 640, w: 136 },
+      { dest: 'fridge_cold', x: 16, w: 146 },
+      { dest: 'safe_estupefacientes', x: 170, w: 146 },
+      { dest: 'drawer_a_m', x: 324, w: 146 },
+      { dest: 'drawer_n_z', x: 478, w: 146 },
+      { dest: 'sigre_expired', x: 632, w: 152 },
     ];
 
-    if (virtualY >= 78 && virtualY <= 228) {
+    if (virtualY >= 72 && virtualY <= 220) {
       for (const z of zones) {
         if (virtualX >= z.x && virtualX <= z.x + z.w) {
           this.routeSelectedItem(z.dest, locale);
@@ -140,11 +140,11 @@ export class ColdChainMiniGame {
       }
     }
 
-    // 2. Check if player tapped an unrouted item card in the bottom crate area (y >= 250)
+    // 2. Check if player tapped an unrouted item card in the bottom crate area (y >= 245)
     const unrouted = this.items.filter((i) => i.routedDestination === null);
     unrouted.forEach((item, idx) => {
-      const cardY = 262 + idx * 44;
-      if (virtualY >= cardY && virtualY <= cardY + 38 && virtualX >= 32 && virtualX <= 768) {
+      const cardY = 248 + idx * 48;
+      if (virtualY >= cardY && virtualY <= cardY + 44 && virtualX >= 20 && virtualX <= 780) {
         this.selectedItemId = item.id;
       }
     });
@@ -201,14 +201,14 @@ export class ColdChainMiniGame {
     ctx.fillRect(0, 0, W, H);
 
     // Header bar
-    ctx.fillStyle = '#1D4E89';
-    ctx.fillRect(24, 16, W - 48, 48);
+    ctx.fillStyle = '#0D4A29';
+    ctx.fillRect(16, 12, W - 32, 52);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 15px sans-serif';
+    ctx.font = 'bold 21px sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(
-      `❄️ ALMACÉN FARMACIA GALLEGO — ${t(this.wave.title, locale)} (${formatTempC(this.wave.ambientTempC, locale)})`,
-      38,
+      `❄️ ALMACÉN — ${t(this.wave.title, locale)} (${formatTempC(this.wave.ambientTempC, locale)})`,
+      30,
       45
     );
 
@@ -227,51 +227,51 @@ export class ColdChainMiniGame {
         dest: 'fridge_cold',
         titleEs: '❄️ Nevera',
         titleEn: '❄️ Fridge',
-        subEs: '2 °C – 8 °C',
-        subEn: '2 °C – 8 °C',
+        subEs: '2–8 °C',
+        subEn: '2–8 °C',
         color: '#0288D1',
-        x: 24,
-        w: 144,
+        x: 16,
+        w: 146,
       },
       {
         dest: 'safe_estupefacientes',
-        titleEs: '🔒 Caja Fuerte',
+        titleEs: '🔒 Caja ●',
         titleEn: '🔒 Safe ●',
-        subEs: 'Estupefacientes',
+        subEs: 'Narcóticos',
         subEn: 'Narcotics',
         color: '#5D4037',
-        x: 178,
-        w: 144,
+        x: 170,
+        w: 146,
       },
       {
         dest: 'drawer_a_m',
-        titleEs: '🗄️ Cajonera A–M',
-        titleEn: '🗄️ Drawer A–M',
-        subEs: 'Alfabético A–M',
-        subEn: 'Letters A–M',
-        color: '#3B6E4C',
-        x: 332,
-        w: 144,
+        titleEs: '🗄️ A–M',
+        titleEn: '🗄️ A–M',
+        subEs: 'Cajón A–M',
+        subEn: 'Drawer A–M',
+        color: '#166938',
+        x: 324,
+        w: 146,
       },
       {
         dest: 'drawer_n_z',
-        titleEs: '🗄️ Cajonera N–Z',
-        titleEn: '🗄️ Drawer N–Z',
-        subEs: 'Alfabético N–Z',
-        subEn: 'Letters N–Z',
+        titleEs: '🗄️ N–Z',
+        titleEn: '🗄️ N–Z',
+        subEs: 'Cajón N–Z',
+        subEn: 'Drawer N–Z',
         color: '#2E6B9E',
-        x: 486,
-        w: 144,
+        x: 478,
+        w: 146,
       },
       {
         dest: 'sigre_expired',
-        titleEs: '♻️ Punto SIGRE',
-        titleEn: '♻️ SIGRE Bin',
+        titleEs: '♻️ SIGRE',
+        titleEn: '♻️ SIGRE',
         subEs: 'Caducados',
-        subEn: 'Expired Meds',
-        color: '#689F38',
-        x: 640,
-        w: 136,
+        subEn: 'Expired',
+        color: '#558B2F',
+        x: 632,
+        w: 152,
       },
     ];
 
@@ -281,70 +281,71 @@ export class ColdChainMiniGame {
       ctx.strokeStyle = z.color;
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.roundRect(z.x, 80, z.w, 138, 10);
+      ctx.roundRect(z.x, 74, z.w, 134, 10);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle = z.color;
-      ctx.fillRect(z.x, 80, z.w, 34);
+      ctx.fillRect(z.x, 74, z.w, 38);
       ctx.fillStyle = '#FFFFFF';
-      ctx.font = 'bold 13px sans-serif';
+      ctx.font = 'bold 19px sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(locale === 'es' ? z.titleEs : z.titleEn, z.x + z.w / 2, 102);
+      ctx.fillText(locale === 'es' ? z.titleEs : z.titleEn, z.x + z.w / 2, 100);
 
-      ctx.fillStyle = '#37474F';
-      ctx.font = '12px sans-serif';
-      ctx.fillText(locale === 'es' ? z.subEs : z.subEn, z.x + z.w / 2, 136);
+      ctx.fillStyle = '#263238';
+      ctx.font = 'bold 17px sans-serif';
+      ctx.fillText(locale === 'es' ? z.subEs : z.subEn, z.x + z.w / 2, 134);
 
-      ctx.fillStyle = '#1B2631';
-      ctx.font = 'bold 18px monospace';
-      ctx.fillText(`${countHere}`, z.x + z.w / 2, 172);
-      ctx.font = '11px sans-serif';
-      ctx.fillStyle = '#607D8B';
-      ctx.fillText(locale === 'es' ? 'Toca para guardar' : 'Tap to store', z.x + z.w / 2, 202);
+      ctx.fillStyle = '#0D351E';
+      ctx.font = 'bold 26px monospace';
+      ctx.fillText(`${countHere}`, z.x + z.w / 2, 170);
+      ctx.font = 'bold 15px sans-serif';
+      ctx.fillStyle = '#455A64';
+      ctx.fillText(locale === 'es' ? 'Toca aquí' : 'Tap here', z.x + z.w / 2, 198);
     }
 
     // Delivery Crate Queue
-    ctx.fillStyle = '#3E2723';
-    ctx.font = 'bold 13.5px sans-serif';
+    ctx.fillStyle = '#0D351E';
+    ctx.font = 'bold 21px sans-serif';
     ctx.textAlign = 'left';
     const unrouted = this.items.filter((i) => i.routedDestination === null);
     ctx.fillText(
       locale === 'es'
         ? `Cubeta de Reparto (${unrouted.length} pendientes):`
         : `Delivery Crate (${unrouted.length} remaining):`,
-      32,
-      248
+      20,
+      236
     );
 
     unrouted.forEach((item, idx) => {
-      const cardY = 260 + idx * 44;
+      const cardY = 248 + idx * 48;
       const isSelected = item.id === this.selectedItemId;
 
-      ctx.fillStyle = isSelected ? '#FFF8E1' : '#FFFFFF';
-      ctx.strokeStyle = isSelected ? '#C85A32' : '#B0BEC5';
-      ctx.lineWidth = isSelected ? 3 : 1.5;
+      ctx.fillStyle = isSelected ? '#E8F8EC' : '#FFFFFF';
+      ctx.strokeStyle = isSelected ? '#146C38' : '#90A4AE';
+      ctx.lineWidth = isSelected ? 3.5 : 2;
       ctx.beginPath();
-      ctx.roundRect(32, cardY, 736, 38, 7);
+      ctx.roundRect(20, cardY, 760, 43, 8);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = '#1B2631';
-      ctx.font = 'bold 13px sans-serif';
+      ctx.fillStyle = '#09351C';
+      ctx.font = 'bold 20px sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText(item.name, 48, cardY + 17);
-
-      ctx.font = '11.5px sans-serif';
-      ctx.fillStyle = '#546E7A';
-      ctx.fillText(t(item.subtitle, locale), 48, cardY + 32);
+      ctx.fillText(item.name, 34, cardY + 28);
 
       if (item.requiresColdChain) {
         const tempStr = formatTempC(item.currentTempC, locale);
         const maxStr = formatTempC(item.maxSafeTempC, locale);
         ctx.fillStyle = item.spoiledByHeat ? '#D32F2F' : '#0277BD';
-        ctx.font = 'bold 13px monospace';
+        ctx.font = 'bold 19px monospace';
         ctx.textAlign = 'right';
-        ctx.fillText(`❄️ ${tempStr} / max ${maxStr}`, 752, cardY + 24);
+        ctx.fillText(`❄️ ${tempStr}/${maxStr}`, 764, cardY + 28);
+      } else {
+        ctx.font = 'bold 17px sans-serif';
+        ctx.fillStyle = '#2E5A40';
+        ctx.textAlign = 'right';
+        ctx.fillText(t(item.subtitle, locale).slice(0, 32), 764, cardY + 28);
       }
     });
 

@@ -153,10 +153,10 @@ export class HandwritingMiniGame {
     ctx.fillRect(0, 0, W, H);
 
     // 2. Prescription Paper Sheet (Full-width for maximum mobile legibility)
-    const paperX = 28;
-    const paperY = 18;
-    const paperW = W - 56;
-    const paperH = H - 36;
+    const paperX = 16;
+    const paperY = 14;
+    const paperW = W - 32;
+    const paperH = H - 28;
 
     ctx.fillStyle = this.uvActive ? '#EBF3FF' : '#FCF9F0';
     ctx.beginPath();
@@ -168,58 +168,58 @@ export class HandwritingMiniGame {
 
     // Green Andalusian Health Service header stripe
     ctx.fillStyle = '#007A33';
-    ctx.fillRect(paperX + 16, paperY + 14, paperW - 32, 42);
+    ctx.fillRect(paperX + 14, paperY + 12, paperW - 28, 44);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 17px sans-serif';
+    ctx.font = 'bold 21px sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(
-      'JUNTA DE ANDALUCÍA • RECETA MÉDICA — FARMACIA GALLEGO',
-      paperX + 28,
+      'JUNTA DE ANDALUCÍA • RECETA — FARMACIA GALLEGO',
+      paperX + 26,
       paperY + 41
     );
 
-    // Doctor & Patient metadata header (Larger 17px-18px fonts for iPhone)
+    // Doctor & Patient metadata header (22px–26px fonts for phone screens)
     ctx.fillStyle = '#1B2A22';
-    ctx.font = 'bold 17px sans-serif';
-    ctx.fillText(this.scenario.doctorName, paperX + 24, paperY + 82);
+    ctx.font = 'bold 22px sans-serif';
+    ctx.fillText(this.scenario.doctorName, paperX + 22, paperY + 86);
 
     ctx.fillStyle = '#0D5C31';
-    ctx.font = 'bold 18px sans-serif';
+    ctx.font = 'bold 25px sans-serif';
     const ageLabel = locale === 'es' ? 'años' : 'yrs';
     ctx.fillText(
       `${locale === 'es' ? 'Paciente' : 'Patient'}: ${this.scenario.patientName} (${this.scenario.patientAge} ${ageLabel})`,
-      paperX + 24,
-      paperY + 112
+      paperX + 22,
+      paperY + 118
     );
-    ctx.font = 'bold 16px sans-serif';
-    ctx.fillStyle = '#2B3A42';
-    ctx.fillText(t(this.scenario.patientContext, locale), paperX + 24, paperY + 138);
+    ctx.font = 'bold 21px sans-serif';
+    ctx.fillStyle = '#1F3329';
+    ctx.fillText(t(this.scenario.patientContext, locale), paperX + 22, paperY + 148);
 
     // 3. Prescription Handwriting Box (Unmagnified Messy Scrawl)
-    const rxBoxX = paperX + 24;
-    const rxBoxY = paperY + 154;
-    const rxBoxW = paperW - 48;
-    const rxBoxH = 180;
+    const rxBoxX = paperX + 20;
+    const rxBoxY = paperY + 162;
+    const rxBoxW = paperW - 40;
+    const rxBoxH = 172;
 
     ctx.fillStyle = this.uvActive ? '#DFEFFF' : '#F7F1E1';
     ctx.strokeStyle = '#90A4AE';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2.5;
     ctx.fillRect(rxBoxX, rxBoxY, rxBoxW, rxBoxH);
     ctx.strokeRect(rxBoxX, rxBoxY, rxBoxW, rxBoxH);
 
     // Draw Doctor's messy cursive waveform + skewed text
     ctx.save();
-    ctx.translate(rxBoxX + 28, rxBoxY + 86);
+    ctx.translate(rxBoxX + 24, rxBoxY + 90);
     ctx.rotate(-0.045 * this.effectiveMessiness);
     ctx.fillStyle = 'rgba(22, 42, 92, 0.58)';
-    ctx.font = 'italic bold 31px Georgia, serif';
+    ctx.font = 'italic bold 34px Georgia, serif';
     ctx.fillText(this.scenario.handwritingText, 0, 0);
 
     // Procedural fountain-pen loops and doctor seismograph squiggles over text
     ctx.strokeStyle = 'rgba(18, 35, 82, 0.72)';
-    ctx.lineWidth = 2.4;
+    ctx.lineWidth = 2.6;
     ctx.beginPath();
-    const waveLen = 580;
+    const waveLen = 620;
     for (let x = 0; x <= waveLen; x += 6) {
       const jitter =
         Math.sin(x * 0.19) * 15 * this.effectiveMessiness +
@@ -233,32 +233,32 @@ export class HandwritingMiniGame {
     // 4. Footer Inspection Progress & Watermark Clue
     const ratio = this.getInspectedRatio();
     ctx.fillStyle = '#1B2A22';
-    ctx.font = 'bold 16px sans-serif';
+    ctx.font = 'bold 22px sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(
       locale === 'es'
         ? `Claridad de Lupa: ${Math.round(ratio * 100)}%`
         : `Loupe Clarity: ${Math.round(ratio * 100)}%`,
       rxBoxX,
-      paperY + 364
+      paperY + 370
     );
     ctx.fillStyle = '#CFD8DC';
-    ctx.fillRect(rxBoxX + 215, paperY + 350, 260, 16);
+    ctx.fillRect(rxBoxX + 275, paperY + 350, 260, 22);
     ctx.fillStyle = '#00C853';
-    ctx.fillRect(rxBoxX + 215, paperY + 350, 260 * ratio, 16);
+    ctx.fillRect(rxBoxX + 275, paperY + 350, 260 * ratio, 22);
 
     if (this.uvActive || this.hasUvUpgrade || ratio >= 0.4) {
       ctx.fillStyle = '#0D5C31';
-      ctx.font = 'bold 17px sans-serif';
+      ctx.font = 'bold 21px sans-serif';
       ctx.fillText(
         `🔎 ${t(this.scenario.watermarkHint, locale)}`,
         rxBoxX,
-        paperY + 402
+        paperY + 412
       );
     }
 
     // 5. Interactive Magnifying Loupe Lens (clarifies doctor handwriting under the lens!)
-    const radius = this.hasUvUpgrade ? 96 : 82;
+    const radius = this.hasUvUpgrade ? 105 : 92;
     ctx.save();
     ctx.beginPath();
     ctx.arc(this.loupeX, this.loupeY, radius, 0, Math.PI * 2);
@@ -268,13 +268,13 @@ export class HandwritingMiniGame {
     ctx.fillRect(this.loupeX - radius, this.loupeY - radius, radius * 2, radius * 2);
 
     ctx.fillStyle = '#0B1F4D';
-    ctx.font = 'bold 28px Georgia, serif';
+    ctx.font = 'bold 31px Georgia, serif';
     ctx.textAlign = 'center';
     ctx.fillText(this.scenario.handwritingText, W / 2, rxBoxY + 86);
 
     ctx.fillStyle = '#00695C';
-    ctx.font = 'bold 16px sans-serif';
-    ctx.fillText(t(this.scenario.watermarkHint, locale), W / 2, rxBoxY + 128);
+    ctx.font = 'bold 20px sans-serif';
+    ctx.fillText(t(this.scenario.watermarkHint, locale), W / 2, rxBoxY + 130);
     ctx.restore();
 
     // Brass / UV Loupe Rim & Handle

@@ -262,19 +262,19 @@ export class CompoundingMiniGame {
     ctx.fillRect(0, 360, W, 8);
 
     // Header Banner
-    ctx.fillStyle = '#1D4E89';
-    ctx.fillRect(24, 18, W - 48, 52);
+    ctx.fillStyle = '#0D4A29';
+    ctx.fillRect(16, 12, W - 32, 68);
     ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 15px sans-serif';
+    ctx.font = 'bold 22px sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(
-      `⚗️ REBOTICA FARMACIA GALLEGO — ${t(this.recipe.name, locale)}`,
-      40,
+      `⚗️ REBOTICA — ${t(this.recipe.name, locale)}`,
+      30,
       41
     );
-    ctx.font = '12.5px sans-serif';
-    ctx.fillStyle = '#D6EAF8';
-    ctx.fillText(t(this.recipe.patientIndication, locale), 40, 60);
+    ctx.font = 'bold 18px sans-serif';
+    ctx.fillStyle = '#C9F2D7';
+    ctx.fillText(t(this.recipe.patientIndication, locale), 30, 68);
 
     // 2. Render Active Station
     if (this.stepState === 'WEIGH') {
@@ -295,16 +295,16 @@ export class CompoundingMiniGame {
     // Analytical Balance Base
     ctx.fillStyle = '#37474F';
     ctx.beginPath();
-    ctx.roundRect(cx - 140, 290, 280, 75, 10);
+    ctx.roundRect(cx - 155, 290, 310, 82, 10);
     ctx.fill();
 
     // LCD Digital Screen
     ctx.fillStyle = '#0D2B1D';
-    ctx.fillRect(cx - 95, 306, 190, 42);
+    ctx.fillRect(cx - 115, 304, 230, 50);
     ctx.fillStyle = this.isMassWithinTolerance() ? '#00E676' : '#FFD54F';
-    ctx.font = 'bold 24px monospace';
+    ctx.font = 'bold 32px monospace';
     ctx.textAlign = 'center';
-    ctx.fillText(formatMassGrams(this.currentMassGrams, locale), cx, 335);
+    ctx.fillText(formatMassGrams(this.currentMassGrams, locale), cx, 340);
 
     // Weighing pan & powder mound
     ctx.fillStyle = '#B0BEC5';
@@ -321,17 +321,18 @@ export class CompoundingMiniGame {
 
     // Target card
     ctx.fillStyle = '#FFFFFF';
-    ctx.strokeStyle = '#1D4E89';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#166938';
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.roundRect(120, 96, 560, 76, 8);
+    ctx.roundRect(48, 92, 704, 92, 10);
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = '#1B2631';
-    ctx.font = 'bold 15px sans-serif';
-    ctx.fillText(t(this.recipe.powderName, locale), cx, 124);
-    ctx.font = '14px sans-serif';
+    ctx.fillStyle = '#0D351E';
+    ctx.font = 'bold 25px sans-serif';
+    ctx.fillText(t(this.recipe.powderName, locale), cx, 128);
+    ctx.font = 'bold 22px sans-serif';
+    ctx.fillStyle = '#1E5233';
     const targetStr = formatMassGrams(this.recipe.targetMassGrams, locale);
     const tolStr = formatMassGrams(this.effectiveMassTolerance, locale);
     ctx.fillText(
@@ -339,17 +340,17 @@ export class CompoundingMiniGame {
         ? `Objetivo: ${targetStr} (± ${tolStr})`
         : `Target Mass: ${targetStr} (± ${tolStr})`,
       cx,
-      152
+      166
     );
   }
 
   private renderGrindStation(ctx: CanvasRenderingContext2D, locale: Locale): void {
     const cx = 400;
-    const cy = 265;
+    const cy = 275;
 
     // Ceramic Porcelain Mortar (Top-down angled view)
     ctx.fillStyle = '#FFFFFF';
-    ctx.strokeStyle = '#1D4E89';
+    ctx.strokeStyle = '#166938';
     ctx.lineWidth = 5;
     ctx.beginPath();
     ctx.arc(cx, cy, 98, 0, Math.PI * 2);
@@ -376,61 +377,61 @@ export class CompoundingMiniGame {
     ctx.stroke();
 
     // Progress bar
-    ctx.fillStyle = '#1B2631';
-    ctx.font = 'bold 15px sans-serif';
+    ctx.fillStyle = '#0D351E';
+    ctx.font = 'bold 25px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(
       locale === 'es'
         ? `Homogeneización en Mortero: ${formatPercent(this.grindProgress, locale)}`
         : `Mortar Homogenization: ${formatPercent(this.grindProgress, locale)}`,
       cx,
-      115
+      118
     );
     ctx.fillStyle = '#CFD8DC';
-    ctx.fillRect(cx - 150, 128, 300, 16);
+    ctx.fillRect(cx - 180, 132, 360, 22);
     ctx.fillStyle = '#00C853';
-    ctx.fillRect(cx - 150, 128, 300 * this.grindProgress, 16);
+    ctx.fillRect(cx - 180, 132, 360 * this.grindProgress, 22);
   }
 
   private renderMeasureStation(ctx: CanvasRenderingContext2D, locale: Locale): void {
     const cx = 400;
-    const cylTop = 140;
-    const cylBottom = 350;
+    const cylTop = 152;
+    const cylBottom = 352;
     const cylH = cylBottom - cylTop;
     const maxMl = 10;
 
     // Graduated Cylinder Glass
     ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-    ctx.strokeStyle = '#1D4E89';
+    ctx.strokeStyle = '#166938';
     ctx.lineWidth = 3;
-    ctx.fillRect(cx - 48, cylTop, 96, cylH);
-    ctx.strokeRect(cx - 48, cylTop, 96, cylH);
+    ctx.fillRect(cx - 52, cylTop, 104, cylH);
+    ctx.strokeRect(cx - 52, cylTop, 104, cylH);
 
     // Liquid column
     const fillRatio = Math.min(1, this.currentLiquidMl / maxMl);
     const fillH = cylH * fillRatio;
     ctx.fillStyle = 'rgba(56, 152, 236, 0.55)';
-    ctx.fillRect(cx - 45, cylBottom - fillH, 90, fillH);
+    ctx.fillRect(cx - 49, cylBottom - fillH, 98, fillH);
 
     // Target graduation band
     const targetY = cylBottom - (this.recipe.targetLiquidMl / maxMl) * cylH;
     ctx.strokeStyle = '#00C853';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 4;
     ctx.beginPath();
-    ctx.moveTo(cx - 62, targetY);
-    ctx.lineTo(cx + 62, targetY);
+    ctx.moveTo(cx - 68, targetY);
+    ctx.lineTo(cx + 68, targetY);
     ctx.stroke();
 
     // Info banner
-    ctx.fillStyle = '#1B2631';
-    ctx.font = 'bold 15px sans-serif';
+    ctx.fillStyle = '#0D351E';
+    ctx.font = 'bold 25px sans-serif';
     ctx.textAlign = 'center';
     const currentStr = formatVolumeMl(this.currentLiquidMl, locale);
     const targetStr = formatVolumeMl(this.recipe.targetLiquidMl, locale);
     ctx.fillText(
       `${t(this.recipe.liquidName, locale)} — ${currentStr} / ${targetStr}`,
       cx,
-      112
+      122
     );
   }
 
@@ -439,16 +440,16 @@ export class CompoundingMiniGame {
 
     // Water Bath Vessel (Baño María)
     ctx.fillStyle = '#78909C';
-    ctx.fillRect(cx - 110, 230, 220, 120);
+    ctx.fillRect(cx - 110, 235, 220, 120);
     ctx.fillStyle = this.recipe.pigmentColor;
-    ctx.fillRect(cx - 70, 210, 140, 110);
+    ctx.fillRect(cx - 70, 215, 140, 110);
 
     // Thermometer & Target Band
     ctx.fillStyle = '#FFFFFF';
-    ctx.strokeStyle = '#263238';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#166938';
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.roundRect(120, 96, 560, 92, 8);
+    ctx.roundRect(48, 92, 704, 104, 10);
     ctx.fill();
     ctx.stroke();
 
@@ -457,28 +458,28 @@ export class CompoundingMiniGame {
     const tolStr = formatTempC(this.effectiveTempTolerance, locale);
 
     ctx.fillStyle = this.isBathTempInBand() ? '#007A33' : '#C85A32';
-    ctx.font = 'bold 16px sans-serif';
+    ctx.font = 'bold 24px sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText(
       locale === 'es'
         ? `Baño María: ${tempStr} (Rango: ${targetStr} ± ${tolStr})`
         : `Water Bath: ${tempStr} (Target: ${targetStr} ± ${tolStr})`,
       cx,
-      128
+      126
     );
 
-    ctx.fillStyle = '#263238';
-    ctx.font = '14px sans-serif';
+    ctx.fillStyle = '#0D351E';
+    ctx.font = 'bold 21px sans-serif';
     ctx.fillText(
       locale === 'es'
         ? `Emulsión Completada: ${formatPercent(this.thermalHoldProgress, locale)}`
         : `Emulsion Hold Progress: ${formatPercent(this.thermalHoldProgress, locale)}`,
       cx,
-      155
+      160
     );
     ctx.fillStyle = '#CFD8DC';
-    ctx.fillRect(cx - 140, 164, 280, 12);
+    ctx.fillRect(cx - 160, 170, 320, 16);
     ctx.fillStyle = '#00C853';
-    ctx.fillRect(cx - 140, 164, 280 * this.thermalHoldProgress, 12);
+    ctx.fillRect(cx - 160, 170, 320 * this.thermalHoldProgress, 16);
   }
 }

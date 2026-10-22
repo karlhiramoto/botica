@@ -40,6 +40,31 @@ jobs:
       - name: Build static site
         run: npm run build
 
+      - name: Checkout farmaciagallego.github.io
+        if: github.event_name != 'pull_request'
+        uses: actions/checkout@v4
+        with:
+          repository: 'farmaciagallego/farmaciagallego.github.io'
+          ssh-key: ${{ secrets.FARMACIA_DEPLOY_KEY }}
+          path: 'farmacia-target'
+
+      - name: Deploy juego to farmaciagallego.github.io
+        if: github.event_name != 'pull_request'
+        run: |
+          cd farmacia-target
+          rm -rf juego
+          mkdir -p juego
+          cp -r ../dist/* juego/
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add juego
+          if git diff --staged --quiet; then
+            echo "No changes in juego to commit."
+          else
+            git commit -m "chore(juego): update game bundle from karlhiramoto/botica@${GITHUB_SHA::7}"
+            git push origin main
+          fi
+
       - name: Setup Pages
         if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
